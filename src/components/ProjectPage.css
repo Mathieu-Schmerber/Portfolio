@@ -5,6 +5,7 @@
     width: 100%;
     height: calc(100vh - 64px); /* Adjust based on your desired top/bottom padding or headers */
     overflow: hidden;
+    flex-direction: row;
 }
 
 .markdown-container {
@@ -196,4 +197,12 @@
 .pagination-dot.active {
     outline: 2px solid blue;
     background-color: blue; /* You can change the color here if you want */
+}
+
+@media (max-width: 768px) {
+    .project-page {
+        height: 100%;
+        flex-direction: column;
+        overflow: auto;
+    }
 }
