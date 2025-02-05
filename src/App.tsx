@@ -12,7 +12,7 @@ const { Content } = Layout;
 
 const App: React.FC = () => {
     return (
-        <Router>
+        <Router basename={"/portfolio/"}>
             <Layout className="layout" style={{ minHeight: '100vh' }}>
                 <HeaderMenu />
                 <Content>
