@@ -28,7 +28,7 @@ const ProjectPage: React.FC<{ project: Project, path: string }> = ({ project, pa
     const elementCount = project.images.length + (project.buildFile ? 1 : 0);
 
     useEffect(() => {
-        fetch(`${path}/${project.slug}.md`)
+        fetch(getFile(project, `${project.slug}.md`))
             .then((response) => response.text())
             .then((data) => setMarkdownContent(data))
             .catch((err) => console.error('Error loading markdown file:', err));

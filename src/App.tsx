@@ -12,7 +12,7 @@ const { Content } = Layout;
 
 const App: React.FC = () => {
     return (
-        <Router basename={"/Portfolio/"}>
+        <Router basename={import.meta.env.BASE_URL}>
             <Layout className="layout" style={{ minHeight: '100vh' }}>
                 <HeaderMenu />
                 <Content>

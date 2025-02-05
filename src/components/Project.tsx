@@ -19,8 +19,8 @@ function isWebUrl(file: string): boolean {
 
 // Function to get the file URL or path for a project
 export function getFile(project: Project, file: string): string {
-    if (isWebUrl(file)) {
+    if (isWebUrl(file))
         return file;
-    }
-    return `/projects/${project.slug}/${file}`;
+
+    return `${import.meta.env.BASE_URL}/projects/${project.slug}/${file}`;
 }
