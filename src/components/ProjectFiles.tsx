@@ -15,6 +15,16 @@ export const projectFiles: Project[] = [
         ],
         buildFile: "https://html-classic.itch.zone/html/9105414/index.html"
     },
+    {title: "For The Church", description: "Sacrifice your people for the greater good", slug: "for-the-church",
+        cover: "assets/cover.png",
+        images: [
+            "assets/cover.png",
+            "https://img.itch.zone/aW1hZ2UvMTkzMjczMC8xMTM2ODIzMS5wbmc=/original/U9R6zO.png",
+            "https://img.itch.zone/aW1hZ2UvMTkzMjczMC8xMTM2ODIzMi5wbmc=/original/8%2F01pn.png",
+            "https://img.itch.zone/aW1hZ2UvMTkzMjczMC8xMTM2ODIzMy5wbmc=/original/w2jeE7.png"
+        ],
+        buildFile: "https://html-classic.itch.zone/html/7379054/index.html"
+    },
     {title: "Dawns Gate", description: "A stylized dark-fantasy roguelite", slug: "dawns-gate",
         cover: "cover.png",
         images: [

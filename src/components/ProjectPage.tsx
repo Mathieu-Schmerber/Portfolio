@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import Markdown from "react-markdown";
 import './ProjectPage.css';
 import { getFile, Project } from "./Project.tsx";
 import PlayButton from "./PlayButton.tsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExpand } from "@fortawesome/free-solid-svg-icons";
+import {faChevronLeft, faChevronRight, faExpand} from "@fortawesome/free-solid-svg-icons";
+import MarkdownRenderer from "./MarkdownRenderer.tsx";
 
 const isYouTubeLink = (url: string) => {
     return url.match(/^(https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|\S+)|youtu\.be\/\S+)$/);
@@ -141,7 +141,7 @@ const ProjectPage: React.FC<{ project: Project, path: string }> = ({ project, pa
     return (
         <div className="project-page">
             <div className="markdown-container">
-                <Markdown>{markdownContent}</Markdown>
+                <MarkdownRenderer>{markdownContent}</MarkdownRenderer>
             </div>
 
             {/* SELECTED ASSET DISPLAY */}
@@ -196,7 +196,9 @@ const ProjectPage: React.FC<{ project: Project, path: string }> = ({ project, pa
 
                 {/* SLIDE SHOW */}
                 <div className="assets-scroll-container">
-                    <button className="left-arrow" onClick={scrollLeft} />
+                    <button className="left-arrow" onClick={scrollLeft}>
+                        <FontAwesomeIcon icon={faChevronLeft} size={'2x'}/>
+                    </button>
                     <div className="assets-scroll" ref={scrollContainerRef}>
                         {build && (
                             <>
@@ -222,7 +224,9 @@ const ProjectPage: React.FC<{ project: Project, path: string }> = ({ project, pa
                             </div>
                         ))}
                     </div>
-                    <button className="right-arrow" onClick={scrollRight} />
+                    <button className="right-arrow" onClick={scrollRight}>
+                        <FontAwesomeIcon icon={faChevronRight} size={'2x'}/>
+                    </button>
                 </div>
             </div>
         </div>

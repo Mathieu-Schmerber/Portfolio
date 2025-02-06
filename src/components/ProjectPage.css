@@ -11,7 +11,6 @@
 .markdown-container {
     flex: 1;
     background-color: #ffffff;
-    padding: 20px;
     overflow-y: auto;
 }
 
@@ -21,6 +20,7 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
+    justify-content: center; /* Center vertically */
 }
 
 .assets-scroll-container {
@@ -72,19 +72,6 @@
     object-fit: contain;
 }
 
-.left-arrow,
-.right-arrow {
-    position: absolute;
-    cursor: pointer;
-    border: none;
-    height: 100%;
-    width: 80px;
-    padding: 10px;
-    font-size: 1.2rem;
-    background: rgb(245, 245, 245);
-    z-index: 10;
-}
-
 .asset-image {
     height: 200px;
     aspect-ratio: 16 / 9;
@@ -106,7 +93,7 @@
     cursor: pointer;
     border: none;
     height: 100%;
-    width: 100px;
+    width: 150px;
     padding: 10px;
     font-size: 1.2rem;
     background: rgb(245, 245, 245);
