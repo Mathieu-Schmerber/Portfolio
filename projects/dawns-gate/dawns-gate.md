@@ -1,5 +1,3 @@
 # Dawns Gate
 
-> Great fucking project
-
-Philou is the freaking **best**
+Oh heeeehooo hein stop là ok ?
