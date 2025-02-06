@@ -16,6 +16,12 @@ const App: React.FC = () => {
             theme={{
                 token: {
                     fontFamily: 'Ubuntu',
+                    colorPrimary: "#f2a06e",
+                    colorInfo: "#f2a06e",
+                    colorBgLayout: '#f5f5f5', // Slightly off-white background
+                    colorBgContainer: '#ffffff', // Pure white for elevated containers
+                    colorBorder: "#f2a16eb3",
+                    colorBorderSecondary: "#f2a16e40"
                 },
             }}
         >

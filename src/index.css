@@ -3,7 +3,19 @@
   src: url('assets/Ubuntu-Regular.ttf') format('truetype');
 }
 
+:root {
+  --font-family: 'Ubuntu', sans-serif;
+  --color-primary: #f2a06e;
+  --color-bg-layout: #f5f5f5;
+  --color-bg-container: #ffffff;
+  --color-text: #333333;
+}
+
 body {
+  font-family: var(--font-family);
+  background-color: var(--color-bg-layout);
+  color: var(--color-text);
+
   margin: 0;
 }
 

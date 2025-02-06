@@ -23,7 +23,7 @@ const ProjectPage: React.FC<{ project: Project, path: string }> = ({ project, pa
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
-    const size = 200 * (16 / 9);
+    const size = 150 * (16 / 9);
     const gap = 10;
     const elementCount = project.images.length + (project.buildFile ? 1 : 0);
 
