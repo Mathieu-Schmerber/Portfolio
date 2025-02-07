@@ -1,20 +1,21 @@
 .section {
-    display: flex !important;
-    flex-direction: column;
     height: 100vh;
+    width: 100vw;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
 
-.welcome {
-    background-color: red;
+.section.home {
+    display: flex !important;
+    flex-direction: column;
 }
 
-.about {
-    background-color: blue;
+.section.about {
+    display: flex !important;
+    flex-direction: column;
 }
 
-.projects {
-    background-color: yellow;
+.section.projects {
+    align-content: center;
 }
