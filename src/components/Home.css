@@ -1,3 +1,8 @@
+:root {
+    --navigation-height: 80vh;
+    --navigation-pin: 32px;
+}
+
 .section {
     height: 100vh;
     width: 100vw;
@@ -18,4 +23,40 @@
 
 .section.projects {
     align-content: center;
+}
+
+.navigation-container {
+    position: fixed;
+    right: 25px;
+    top: calc((100vh - (var(--navigation-height) - ((var(--navigation-height) / 3) - var(--navigation-pin))) ) / 2);
+    align-content: center;
+    z-index: 10;
+    transition: all ease-in-out .5s;
+}
+
+.navigation-container .navigation {
+    height: var(--navigation-height);
+}
+
+.navigation-wrapper {
+    position: relative;
+}
+
+.arrow {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 20;
+    transition: opacity 0.5s ease;
+    color: var(--color-primary)
+}
+
+.arrow-up {
+    top: 10px;
+}
+
+.arrow-down {
+    bottom: 10px;
 }

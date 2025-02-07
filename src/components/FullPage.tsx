@@ -4,14 +4,19 @@ interface FullPageProps {
     children: ReactNode[];
     activeSection?: number; // Optional prop to control active section externally
     onSectionChange?: (index: number) => void; // Callback to notify parent of section change
+    renderNavigation?: () => JSX.Element; // Optional navigation component renderer
+    delay?: number; // Cooldown in ms between two scrolls or swipes
 }
 
 export default function FullPage({
                                      children,
                                      activeSection,
                                      onSectionChange,
+                                     renderNavigation,
+                                     delay = 500,
                                  }: FullPageProps): JSX.Element {
     const [internalActiveIndex, setInternalActiveIndex] = useState<number>(0);
+    const [isScrollCooldown, setIsScrollCooldown] = useState<boolean>(false);
     const totalSections: number = children.length;
     const containerRef = useRef<HTMLDivElement | null>(null);
     const sectionsRef = useRef<(HTMLDivElement | null)[]>([]); // To store references to each section
@@ -24,13 +29,16 @@ export default function FullPage({
     // Scroll handling for mouse wheel
     const handleScroll = useCallback(
         (event: WheelEvent): void => {
+            if (isScrollCooldown) return;
             event.preventDefault();
             const newIndex =
                 event.deltaY < 0 ? Math.max(activeIndex - 1, 0) : Math.min(activeIndex + 1, totalSections - 1);
             if (onSectionChange) onSectionChange(newIndex); // Notify parent of section change
             setInternalActiveIndex(newIndex);
+            setIsScrollCooldown(true);
+            setTimeout(() => setIsScrollCooldown(false), delay);
         },
-        [activeIndex, totalSections, onSectionChange]
+        [activeIndex, totalSections, onSectionChange, isScrollCooldown, delay]
     );
 
     // Scroll animation
@@ -57,7 +65,7 @@ export default function FullPage({
 
     // Handle touch end
     const handleTouchEnd = (): void => {
-        if (touchStartY.current !== null && touchEndY.current !== null) {
+        if (touchStartY.current !== null && touchEndY.current !== null && !isScrollCooldown) {
             const distance = touchStartY.current - touchEndY.current;
             if (Math.abs(distance) > 50) {
                 const newIndex =
@@ -66,6 +74,8 @@ export default function FullPage({
                         : Math.max(activeIndex - 1, 0);
                 if (onSectionChange) onSectionChange(newIndex);
                 setInternalActiveIndex(newIndex);
+                setIsScrollCooldown(true);
+                setTimeout(() => setIsScrollCooldown(false), delay);
             }
         }
         touchStartY.current = null;
@@ -90,10 +100,13 @@ export default function FullPage({
             container?.removeEventListener("touchmove", handleTouchMove);
             container?.removeEventListener("touchend", handleTouchEnd);
         };
-    }, [activeIndex]);
+    }, [activeIndex, isScrollCooldown, delay]);
 
     return (
         <div style={{ height: "100vh", width: "100%", overflow: "hidden", position: "relative" }}>
+            {/* Render the navigation if provided */}
+            {renderNavigation && renderNavigation()}
+
             <div
                 ref={containerRef}
                 style={{
@@ -102,6 +115,7 @@ export default function FullPage({
                     transition: "transform 0.5s ease",
                     display: "flex",
                     flexDirection: "column",
+                    marginRight: "200px", // Allow space for the fixed navigation
                 }}
             >
                 {children.map((child, index) => (
