@@ -19,15 +19,9 @@
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "antd": "^5.23.3",
-    "concurrently": "^9.1.2",
-    "cors": "^2.8.5",
-    "express": "^4.21.2",
-    "framer-motion": "^12.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-fullpage": "^0.1.19",
     "react-markdown": "^9.0.3",
-    "react-multi-carousel": "^2.8.5",
     "react-router-dom": "^7.1.5",
     "remark-gfm": "^4.0.0"
   },
@@ -45,7 +39,6 @@
     "eslint-plugin-react-refresh": "^0.4.16",
     "gh-pages": "^6.3.0",
     "globals": "^15.14.0",
-    "ts-node": "^10.9.2",
     "typescript": "~5.6.3",
     "typescript-eslint": "^8.23.0",
     "vite": "^6.0.5"

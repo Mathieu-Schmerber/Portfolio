@@ -114,6 +114,7 @@ const SlideShow = ({
 
     useEffect(() => {
         centerAsset(elementCount, false);
+        onSelected?.(elementCount);
     }, []);
 
     useEffect(() => {
