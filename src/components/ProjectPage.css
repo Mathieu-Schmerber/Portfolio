@@ -1,5 +1,6 @@
 :root {
     --asset-height: 150px;
+    --header-height: 64px;
 }
 
 .project-page {
@@ -7,7 +8,7 @@
     padding: 40px 20px;
     gap: 32px;
     width: 100%;
-    height: calc(100vh - 64px); /* Adjust based on your desired top/bottom padding or headers */
+    height: calc(100vh - var(--header-height)); /* Adjust based on your desired top/bottom padding or headers */
     overflow: hidden;
     flex-direction: row;
 }

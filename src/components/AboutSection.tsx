@@ -1,8 +1,9 @@
 import {Button} from "antd";
 import Title from "antd/lib/typography/Title";
 import React from "react";
+import "./AboutSection.css"
 
-const About: React.FC = () => {
+const AboutSection: React.FC = () => {
     return (
         <div>
             <Title level={1}>About</Title>
@@ -11,4 +12,4 @@ const About: React.FC = () => {
     );
 }
 
-export default About;
+export default AboutSection;

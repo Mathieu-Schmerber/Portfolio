@@ -1,55 +1,20 @@
-:root {
-    --card-width: 350px;
-    --card-gap: 24px;
-}
-
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--card-gap); /* Adjust the space between the cards */
-    justify-content: center; /* Center the cards horizontally */
-    max-width: calc((var(--card-width) + var(--card-gap)) * 3); /* Prevent the cards from stretching too wide */
-    margin: 0 auto; /* Center the container horizontally */
-}
-
-.card {
-    width: var(--card-width); /* Fixed width for each card */
-    display: flex;
+.section {
+    display: flex !important;
     flex-direction: column;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for scaling and shadow */
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
-.card:hover {
-    transform: scale(1.05); /* Slightly increase the size of the card */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+.welcome {
+    background-color: red;
 }
 
-.card-cover {
-    width: 100%;
-    aspect-ratio: 16/9;
-    overflow: hidden;
+.about {
+    background-color: blue;
 }
 
-.card-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.card-meta {
-    padding: 16px;
-    background-color: var(--color-bg-container);
-}
-
-.card-meta h3 {
-    margin: 0;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.card-meta p {
-    margin: 8px 0 0;
-    color: var(--color-text);
+.projects {
+    background-color: yellow;
 }

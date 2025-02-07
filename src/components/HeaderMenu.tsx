@@ -1,12 +1,23 @@
 import { Menu, MenuProps } from "antd";
-import { HomeOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import {FolderOutlined, HomeOutlined, UserOutlined} from "@ant-design/icons";
+import { Link, useLocation } from "react-router-dom";
 import { Header } from "antd/lib/layout/layout";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import icon from "../assets/logo.svg";
 
 const HeaderMenu: React.FC = () => {
+    const location = useLocation();
     const [selectedKey, setSelectedKey] = useState<string>('home');
+
+    // This effect runs whenever the URL's hash changes
+    useEffect(() => {
+        const hash = location.hash.replace("#", "");
+        if (hash) {
+            setSelectedKey(hash);
+        } else {
+            setSelectedKey('home'); // Default to 'home' when no hash
+        }
+    }, [location.hash]);
 
     const handleMenuClick: MenuProps['onClick'] = (e) => {
         setSelectedKey(e.key);
@@ -27,7 +38,7 @@ const HeaderMenu: React.FC = () => {
                 position: 'sticky',
                 top: 0,
                 zIndex: 1000, // Ensure it stays above other content
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
             }}
         >
             <Link to="/" style={{ display: 'flex', alignItems: 'center' }} onClick={handleLogoClick}>
@@ -43,14 +54,14 @@ const HeaderMenu: React.FC = () => {
                 onClick={handleMenuClick}
                 style={{ flex: 1 }}
             >
-                <Menu.Item key="home" icon={<HomeOutlined />}>
-                    <Link to="/">Home</Link>
+                <Menu.Item key="welcome" icon={<HomeOutlined />}>
+                    <Link to={`${window.location.origin}#welcome`}>Welcome</Link>
                 </Menu.Item>
                 <Menu.Item key="about" icon={<UserOutlined />}>
-                    <Link to="/about">About</Link>
+                    <Link to={`${window.location.origin}#about`}>About</Link>
                 </Menu.Item>
-                <Menu.Item key="contact" icon={<MailOutlined />}>
-                    <Link to="/contact">Contact</Link>
+                <Menu.Item key="projects" icon={<FolderOutlined   />}>
+                    <Link to={`${window.location.origin}#projects`}>Projects</Link>
                 </Menu.Item>
             </Menu>
         </Header>

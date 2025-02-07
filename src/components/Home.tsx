@@ -1,29 +1,36 @@
 import React from "react";
-import {projectFiles} from "./ProjectFiles.tsx";
-import './Home.css'
-import {Link} from "react-router-dom";
-import {getFile} from "./Project.tsx";
+import WelcomeSection from "./WelcomeSection.tsx";
+import AboutSection from "./AboutSection.tsx";
+import ProjectsSection from "./ProjectsSection.tsx";
+import {SectionsContainer, Section} from 'react-fullpage';
+import "./Home.css";
 
 const Home: React.FC = () => {
+
+    let options = {
+        sectionClassName:     'section',
+        anchors:              ['welcome', 'about', 'projects'],
+        scrollBar:            false,
+        navigation:           true,
+        verticalAlign:        false,
+        sectionPaddingTop:    '50px',
+        sectionPaddingBottom: '50px',
+        arrowNavigation:      true
+    };
+
+
     return (
-        <div className="card-container">
-            {projectFiles.map((project, index) => (
-                <Link to={`/projects/${project.slug}`} key={index} className="card-link">
-                    <div className="card" key={index}>
-                        <div className="card-cover">
-                            <img
-                                alt={project.title}
-                                src={getFile(project, project.cover)}
-                            />
-                        </div>
-                        <div className="card-meta">
-                            <h3>{project.title}</h3>
-                            <p>{project.description}</p>
-                        </div>
-                    </div>
-                </Link>
-            ))}
-        </div>
+        <SectionsContainer {...options}>
+            <Section>
+                <WelcomeSection />
+            </Section>
+            <Section>
+                <AboutSection />
+            </Section>
+            <Section>
+                <ProjectsSection />
+            </Section>
+        </SectionsContainer>
     );
 };
 

@@ -5,6 +5,7 @@ import PlayButton from "./PlayButton.tsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faChevronRight, faExpand} from "@fortawesome/free-solid-svg-icons";
 import MarkdownRenderer from "./MarkdownRenderer.tsx";
+import HeaderMenu from "./HeaderMenu.tsx";
 
 const isYouTubeLink = (url: string) => {
     return url.match(/^(https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|\S+)|youtu\.be\/\S+)$/);
@@ -139,94 +140,97 @@ const ProjectPage: React.FC<{ project: Project, path: string }> = ({ project, pa
     };
 
     return (
-        <div className="project-page">
-            <div className="markdown-container">
-                <MarkdownRenderer>{markdownContent}</MarkdownRenderer>
-            </div>
+        <div>
+            <HeaderMenu/>
+            <div className="project-page">
+                <div className="markdown-container">
+                    <MarkdownRenderer>{markdownContent}</MarkdownRenderer>
+                </div>
 
-            {/* SELECTED ASSET DISPLAY */}
-            <div className="assets-container">
-                <div className="main-asset">
-                    {isBuildSelected && build ? (
-                        isPlayButtonPressed ? (
-                            <div className={"iframe-container"}>
-                                <iframe
-                                    ref={iframeRef}
-                                    tabIndex={0}
-                                    src={build}
-                                    title="Unity Build"
-                                />
-                                <button onClick={handleFullscreen} className="fullscreen-button">
-                                    <FontAwesomeIcon icon={faExpand} size="2x" />
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="main-asset-build" onClick={handlePlayButtonClick}>
-                                <PlayButton />
-                                <img src={visibleImages[0]} alt="Asset" className="main-asset-build-background" />;
-                            </div>
-                        )
-                    ) : (
-                        mainAsset && (
-                            isYouTubeLink(mainAsset) ? (
+                {/* SELECTED ASSET DISPLAY */}
+                <div className="assets-container">
+                    <div className="main-asset">
+                        {isBuildSelected && build ? (
+                            isPlayButtonPressed ? (
                                 <div className={"iframe-container"}>
                                     <iframe
-                                        src={`https://www.youtube.com/embed/${mainAsset.split('v=')[1]}?autoplay=1`}
-                                        title="YouTube Video"
-                                        allowFullScreen
+                                        ref={iframeRef}
+                                        tabIndex={0}
+                                        src={build}
+                                        title="Unity Build"
                                     />
+                                    <button onClick={handleFullscreen} className="fullscreen-button">
+                                        <FontAwesomeIcon icon={faExpand} size="2x" />
+                                    </button>
                                 </div>
                             ) : (
-                                <img src={mainAsset} alt="Main Asset" className="asset-image main"/>
+                                <div className="main-asset-build" onClick={handlePlayButtonClick}>
+                                    <PlayButton />
+                                    <img src={visibleImages[0]} alt="Asset" className="main-asset-build-background" />;
+                                </div>
                             )
-                        )
-                    )}
-                </div>
-
-                {/* PAGINATION */}
-                <div className="pagination-container">
-                    {Array.from({ length: elementCount }).map((_, index) => (
-                        <div
-                            key={index}
-                            className={`pagination-dot ${index === selectedIndex ? 'active' : ''}`}
-                            onClick={() => selectAsset(index)}
-                        />
-                    ))}
-                </div>
-
-                {/* SLIDE SHOW */}
-                <div className="assets-scroll-container">
-                    <button className="left-arrow" onClick={scrollLeft}>
-                        <FontAwesomeIcon icon={faChevronLeft} size={'2x'}/>
-                    </button>
-                    <div className="assets-scroll" ref={scrollContainerRef}>
-                        {build && (
-                            <>
-                                {[...Array(3)].map((_, i) => (
-                                    <React.Fragment key={i}>
-                                        {/* Add the build image */}
-                                        <div className="asset-build" onClick={() => selectAsset(0)}>
-                                            <PlayButton />
-                                            {renderAsset(visibleImages[0])}
-                                        </div>
-                                        {visibleImages.slice(i * images.length, (i + 1) * images.length).map((image, index) => (
-                                            <div key={index + i * images.length} className="asset-item">
-                                                {renderAsset(image)}
-                                            </div>
-                                        ))}
-                                    </React.Fragment>
-                                ))}
-                            </>
+                        ) : (
+                            mainAsset && (
+                                isYouTubeLink(mainAsset) ? (
+                                    <div className={"iframe-container"}>
+                                        <iframe
+                                            src={`https://www.youtube.com/embed/${mainAsset.split('v=')[1]}?autoplay=1`}
+                                            title="YouTube Video"
+                                            allowFullScreen
+                                        />
+                                    </div>
+                                ) : (
+                                    <img src={mainAsset} alt="Main Asset" className="asset-image main"/>
+                                )
+                            )
                         )}
-                        {!build && visibleImages.map((image, index) => (
-                            <div key={index} className="asset-item">
-                                {renderAsset(image)}
-                            </div>
+                    </div>
+
+                    {/* PAGINATION */}
+                    <div className="pagination-container">
+                        {Array.from({ length: elementCount }).map((_, index) => (
+                            <div
+                                key={index}
+                                className={`pagination-dot ${index === selectedIndex ? 'active' : ''}`}
+                                onClick={() => selectAsset(index)}
+                            />
                         ))}
                     </div>
-                    <button className="right-arrow" onClick={scrollRight}>
-                        <FontAwesomeIcon icon={faChevronRight} size={'2x'}/>
-                    </button>
+
+                    {/* SLIDE SHOW */}
+                    <div className="assets-scroll-container">
+                        <button className="left-arrow" onClick={scrollLeft}>
+                            <FontAwesomeIcon icon={faChevronLeft} size={'2x'}/>
+                        </button>
+                        <div className="assets-scroll" ref={scrollContainerRef}>
+                            {build && (
+                                <>
+                                    {[...Array(3)].map((_, i) => (
+                                        <React.Fragment key={i}>
+                                            {/* Add the build image */}
+                                            <div className="asset-build" onClick={() => selectAsset(0)}>
+                                                <PlayButton />
+                                                {renderAsset(visibleImages[0])}
+                                            </div>
+                                            {visibleImages.slice(i * images.length, (i + 1) * images.length).map((image, index) => (
+                                                <div key={index + i * images.length} className="asset-item">
+                                                    {renderAsset(image)}
+                                                </div>
+                                            ))}
+                                        </React.Fragment>
+                                    ))}
+                                </>
+                            )}
+                            {!build && visibleImages.map((image, index) => (
+                                <div key={index} className="asset-item">
+                                    {renderAsset(image)}
+                                </div>
+                            ))}
+                        </div>
+                        <button className="right-arrow" onClick={scrollRight}>
+                            <FontAwesomeIcon icon={faChevronRight} size={'2x'}/>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
