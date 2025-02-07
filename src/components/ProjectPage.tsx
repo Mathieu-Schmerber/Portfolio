@@ -7,7 +7,6 @@ import MarkdownRenderer from "./MarkdownRenderer.tsx";
 import HeaderMenu from "./HeaderMenu.tsx";
 import SlideShow from "./SlideShow.tsx";
 import './ProjectPage.css';
-import {Space} from "antd";
 
 const isYouTubeLink = (url: string): boolean => {
     const youtubeRegex = /^(https?:\/\/(?:www\.)?(youtube\.com\/(?:watch\?v=|embed\/|v\/|user\/|shorts\/|playlist\?)|youtu\.be\/)[^\s]+)/;

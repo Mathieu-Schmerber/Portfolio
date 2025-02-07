@@ -22,5 +22,5 @@ export function getFile(project: Project, file: string): string {
     if (isWebUrl(file))
         return file;
 
-    return `${import.meta.env.BASE_URL}/projects/${project.slug}/${file}`;
+    return `/projects/${project.slug}/${file}`;
 }
