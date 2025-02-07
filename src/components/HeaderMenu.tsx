@@ -55,13 +55,13 @@ const HeaderMenu: React.FC = () => {
                 style={{ flex: 1 }}
             >
                 <Menu.Item key="welcome" icon={<HomeOutlined />}>
-                    <Link to={`${window.location.origin}#welcome`}>Welcome</Link>
+                    <Link to={`${window.location.origin}${import.meta.env.BASE_URL}#welcome`}>Welcome</Link>
                 </Menu.Item>
                 <Menu.Item key="about" icon={<UserOutlined />}>
-                    <Link to={`${window.location.origin}#about`}>About</Link>
+                    <Link to={`${window.location.origin}${import.meta.env.BASE_URL}#about`}>About</Link>
                 </Menu.Item>
                 <Menu.Item key="projects" icon={<FolderOutlined   />}>
-                    <Link to={`${window.location.origin}#projects`}>Projects</Link>
+                    <Link to={`${window.location.origin}${import.meta.env.BASE_URL}#projects`}>Projects</Link>
                 </Menu.Item>
             </Menu>
         </Header>
