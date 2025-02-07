@@ -22,7 +22,7 @@ const App: React.FC = () => {
                 },
             }}
         >
-            <Router basename={import.meta.env.BASE_URL}>
+            <Router>
                 <Layout className="layout" style={{ minHeight: '100vh' }}>
                     <Content>
                         <Routes>
