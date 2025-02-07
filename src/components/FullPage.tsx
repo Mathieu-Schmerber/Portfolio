@@ -1,5 +1,4 @@
 import React, { ReactNode, useEffect, useState, useRef, useCallback } from "react";
-import { Button } from "antd";
 
 interface FullPageProps {
     children: ReactNode[];
@@ -19,24 +18,30 @@ export default function FullPage({
 
     const activeIndex = activeSection !== undefined ? activeSection : internalActiveIndex; // Use external control if provided
 
-    // Scroll handling
-    const handleScroll = useCallback((event: WheelEvent): void => {
-        event.preventDefault();
-        const newIndex = event.deltaY < 0 ? Math.max(activeIndex - 1, 0) : Math.min(activeIndex + 1, totalSections - 1);
-        if (onSectionChange) onSectionChange(newIndex); // Notify parent of section change
-        setInternalActiveIndex(newIndex);
-    }, [activeIndex, totalSections, onSectionChange]);
+    const touchStartY = useRef<number | null>(null);
+    const touchEndY = useRef<number | null>(null);
+
+    // Scroll handling for mouse wheel
+    const handleScroll = useCallback(
+        (event: WheelEvent): void => {
+            event.preventDefault();
+            const newIndex =
+                event.deltaY < 0 ? Math.max(activeIndex - 1, 0) : Math.min(activeIndex + 1, totalSections - 1);
+            if (onSectionChange) onSectionChange(newIndex); // Notify parent of section change
+            setInternalActiveIndex(newIndex);
+        },
+        [activeIndex, totalSections, onSectionChange]
+    );
 
     // Scroll animation
     useEffect(() => {
         if (containerRef.current) {
-            const totalHeight = sectionsRef.current.reduce((acc, section) => acc + (section?.clientHeight || 0), 0);
             const scrollOffset = sectionsRef.current[activeIndex]?.offsetTop || 0;
             containerRef.current.style.transform = `translateY(-${scrollOffset}px)`; // Dynamic scroll offset
         }
     }, [activeIndex]);
 
-    // Setup scroll event listener
+    // Setup scroll event listener for mouse
     useEffect(() => {
         const container = containerRef.current;
         if (container) {
@@ -45,11 +50,47 @@ export default function FullPage({
         return () => container?.removeEventListener("wheel", handleScroll);
     }, [handleScroll]);
 
-    // Handle clicking on a button (to navigate to a section)
-    const handleButtonClick = (index: number): void => {
-        if (onSectionChange) onSectionChange(index); // Notify parent of section change
-        setInternalActiveIndex(index);
+    // Handle touch start
+    const handleTouchStart = (event: TouchEvent): void => {
+        touchStartY.current = event.touches[0].clientY;
     };
+
+    // Handle touch end
+    const handleTouchEnd = (): void => {
+        if (touchStartY.current !== null && touchEndY.current !== null) {
+            const distance = touchStartY.current - touchEndY.current;
+            if (Math.abs(distance) > 50) {
+                const newIndex =
+                    distance > 0
+                        ? Math.min(activeIndex + 1, totalSections - 1)
+                        : Math.max(activeIndex - 1, 0);
+                if (onSectionChange) onSectionChange(newIndex);
+                setInternalActiveIndex(newIndex);
+            }
+        }
+        touchStartY.current = null;
+        touchEndY.current = null;
+    };
+
+    // Handle touch move
+    const handleTouchMove = (event: TouchEvent): void => {
+        touchEndY.current = event.touches[0].clientY;
+    };
+
+    // Setup touch event listeners
+    useEffect(() => {
+        const container = containerRef.current;
+        if (container) {
+            container.addEventListener("touchstart", handleTouchStart, { passive: true });
+            container.addEventListener("touchmove", handleTouchMove, { passive: true });
+            container.addEventListener("touchend", handleTouchEnd, { passive: true });
+        }
+        return () => {
+            container?.removeEventListener("touchstart", handleTouchStart);
+            container?.removeEventListener("touchmove", handleTouchMove);
+            container?.removeEventListener("touchend", handleTouchEnd);
+        };
+    }, [activeIndex]);
 
     return (
         <div style={{ height: "100vh", width: "100%", overflow: "hidden", position: "relative" }}>
@@ -72,17 +113,6 @@ export default function FullPage({
                         {child}
                     </div>
                 ))}
-            </div>
-            <div
-                style={{
-                    position: "absolute",
-                    bottom: "16px",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    display: "flex",
-                    gap: "8px"
-                }}
-            >
             </div>
         </div>
     );

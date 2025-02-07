@@ -1,14 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import './ProjectPage.css';
 import { getFile, Project } from "./Project.tsx";
 import PlayButton from "./PlayButton.tsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faChevronLeft, faChevronRight, faExpand} from "@fortawesome/free-solid-svg-icons";
+import {faExpand} from "@fortawesome/free-solid-svg-icons";
 import MarkdownRenderer from "./MarkdownRenderer.tsx";
 import HeaderMenu from "./HeaderMenu.tsx";
+import SlideShow from "./SlideShow.tsx";
+import './ProjectPage.css';
+import {Space} from "antd";
 
-const isYouTubeLink = (url: string) => {
-    return url.match(/^(https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|\S+)|youtu\.be\/\S+)$/);
+const isYouTubeLink = (url: string): boolean => {
+    const youtubeRegex = /^(https?:\/\/(?:www\.)?(youtube\.com\/(?:watch\?v=|embed\/|v\/|user\/|shorts\/|playlist\?)|youtu\.be\/)[^\s]+)/;
+    return youtubeRegex.test(url);
 };
 
 const ProjectPage: React.FC<{ project: Project, path: string }> = ({ project, path }) => {
@@ -19,13 +22,8 @@ const ProjectPage: React.FC<{ project: Project, path: string }> = ({ project, pa
     const [images, setImages] = useState<string[]>([]);
     const [isPlayButtonPressed, setIsPlayButtonPressed] = useState(false);
     const [visibleImages, setVisibleImages] = useState<string[]>([]);
-    const [selectedIndex, setSelectedIndex] = useState(0);
 
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
     const iframeRef = useRef<HTMLIFrameElement | null>(null);
-
-    const size = 150 * (16 / 9);
-    const gap = 10;
     const elementCount = project.images.length + (project.buildFile ? 1 : 0);
 
     useEffect(() => {
@@ -47,62 +45,19 @@ const ProjectPage: React.FC<{ project: Project, path: string }> = ({ project, pa
         }
     }, [path, project.slug, project.images, project.buildFile]);
 
-    useEffect(() => {
-        if (scrollContainerRef.current && visibleImages.length > 0) {
-            // Center cover first
-            centerAsset(elementCount, false);
-            if (build) setIsBuildSelected(true);
-        }
-    }, [visibleImages]);
-
-    const centerAsset = (index: number, isSmooth: boolean) => {
-        const container = scrollContainerRef.current;
-        const assetWidth = size + gap;
-        const containerWidth = container!.clientWidth;
-        const scrollPosition = index * assetWidth - (containerWidth / 2) + (assetWidth / 2);
-
-        if (!isSmooth)
-            container!.scrollLeft = scrollPosition;
-        else
-            container!.scrollTo({
-                left: scrollPosition,
-                behavior: 'smooth',
-            });
-    }
-
-    const scrollLeft = () => {
-        if (scrollContainerRef.current) {
-            selectAsset(selectedIndex - 1);
-        }
-    };
-
-    const scrollRight = () => {
-        if (scrollContainerRef.current) {
-            selectAsset(selectedIndex + 1);
-        }
-    };
 
     const selectAsset = (index: number) => {
-        const clockwiseDelta = (index - selectedIndex + elementCount) % elementCount;
-        const counterClockwiseDelta = (selectedIndex - index + elementCount) % elementCount;
-        const delta = clockwiseDelta <= counterClockwiseDelta ? clockwiseDelta : -counterClockwiseDelta;
-
         let adjustedIndex = index % elementCount;
         if (adjustedIndex <= 0) {
             adjustedIndex += elementCount;
         }
 
-        setSelectedIndex(adjustedIndex);
         if (adjustedIndex === elementCount) {
             setIsBuildSelected(true);
-            setSelectedIndex(0);
-            centerAsset(delta > 0 ? elementCount - 1 : elementCount + 1, false); // Reset position
-            centerAsset(elementCount, true); // Scroll smoothly
         } else {
             setIsPlayButtonPressed(false)
             setIsBuildSelected(false);
             setMainAsset(images[adjustedIndex - 1]);
-            centerAsset(adjustedIndex + elementCount, true);
         }
     }
 
@@ -186,51 +141,26 @@ const ProjectPage: React.FC<{ project: Project, path: string }> = ({ project, pa
                         )}
                     </div>
 
-                    {/* PAGINATION */}
-                    <div className="pagination-container">
-                        {Array.from({ length: elementCount }).map((_, index) => (
-                            <div
-                                key={index}
-                                className={`pagination-dot ${index === selectedIndex ? 'active' : ''}`}
-                                onClick={() => selectAsset(index)}
-                            />
+                    <SlideShow
+                        pagingPosition={'top'}
+                        itemHeight={150}
+                        itemAspectRatio={16 / 9}
+                        gap={10}
+                        onSelected={(index: number) => selectAsset(index)}
+                    >
+                        {Array.from({length: elementCount}).map((_, index) => (
+                                index === 0 && build ? (
+                                    <div key={index} className="asset-build">
+                                        <PlayButton/>
+                                        {renderAsset(images[0])}
+                                    </div>
+                                ) : (
+                                    <div key={index} className="asset-item">
+                                        {renderAsset(images[build ? index - 1 : index])}
+                                    </div>
+                                )
                         ))}
-                    </div>
-
-                    {/* SLIDE SHOW */}
-                    <div className="assets-scroll-container">
-                        <button className="left-arrow" onClick={scrollLeft}>
-                            <FontAwesomeIcon icon={faChevronLeft} size={'2x'}/>
-                        </button>
-                        <div className="assets-scroll" ref={scrollContainerRef}>
-                            {build && (
-                                <>
-                                    {[...Array(3)].map((_, i) => (
-                                        <React.Fragment key={i}>
-                                            {/* Add the build image */}
-                                            <div className="asset-build" onClick={() => selectAsset(0)}>
-                                                <PlayButton />
-                                                {renderAsset(visibleImages[0])}
-                                            </div>
-                                            {visibleImages.slice(i * images.length, (i + 1) * images.length).map((image, index) => (
-                                                <div key={index + i * images.length} className="asset-item">
-                                                    {renderAsset(image)}
-                                                </div>
-                                            ))}
-                                        </React.Fragment>
-                                    ))}
-                                </>
-                            )}
-                            {!build && visibleImages.map((image, index) => (
-                                <div key={index} className="asset-item">
-                                    {renderAsset(image)}
-                                </div>
-                            ))}
-                        </div>
-                        <button className="right-arrow" onClick={scrollRight}>
-                            <FontAwesomeIcon icon={faChevronRight} size={'2x'}/>
-                        </button>
-                    </div>
+                    </SlideShow>
                 </div>
             </div>
         </div>
