@@ -60,3 +60,9 @@
 .arrow-down {
     bottom: 10px;
 }
+
+@media (max-width: 768px) {
+    .navigation-container {
+        display: none;
+    }
+}

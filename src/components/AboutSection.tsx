@@ -10,7 +10,7 @@ const AboutSection: React.FC = () => {
         <div>
             <div className="container">
                 <div className="avatar-container">
-                    <Avatar className={"avatar"} src={mathieu} size={300}/>
+                    <Avatar className={"avatar"} src={mathieu}/>
                 </div>
                 <div className="info">
                     <Title>Mathieu Schmerber</Title>
