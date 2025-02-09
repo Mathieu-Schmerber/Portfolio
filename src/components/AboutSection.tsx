@@ -13,7 +13,7 @@ const AboutSection: React.FC = () => {
                     <Avatar className={"avatar"} src={mathieu}/>
                 </div>
                 <div className="info">
-                    <Title>Mathieu Schmerber</Title>
+                    <Title className={"ubuntu"}>Mathieu Schmerber</Title>
                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut nisi viverra, venenatis orci
                         eget, sollicitudin sapien. Nulla sodales mollis elementum. Cras dictum nibh turpis, volutpat
                         ultrices nisi faucibus vel. Donec sed ex mi. Orci varius natoque penatibus et magnis dis

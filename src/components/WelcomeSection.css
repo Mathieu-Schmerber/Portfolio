@@ -1,4 +1,12 @@
-
 .header-title {
-    color: var(--color-primary)
+    font-family: 'OleoScript';
+    font-weight: normal !important;
+    font-size: 64px !important;
+    color: var(--color-primary) !important;
+}
+
+.header-subtitle {
+    font-family: 'Ubuntu';
+    font-weight: normal !important;
+    font-size: 32px !important;
 }

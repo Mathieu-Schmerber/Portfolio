@@ -12,7 +12,7 @@ It was made in **72 hours**.
 
 **For The Church** placed **23rd** out of **734** entries, and received **135** ratings where the average number per entry is **20.9** ratings.
 
-![Rankings](/Portfolio/projects/for-the-church/assets/ranking.png)
+![Rankings](../../projects/for-the-church/assets/ranking.png)
 
 ---
 ## Gameplay

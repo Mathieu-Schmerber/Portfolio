@@ -29,8 +29,8 @@ const ProjectsSection: React.FC = () => {
 
     return (
         <div className="page-container">
-            <Title>My projects</Title>
-            <Title level={3}>Some projects</Title>
+            <Title className={'ubuntu'}>My projects</Title>
+            <Title className={'ubuntu'} level={3}>Some projects</Title>
             <SlideShow className={"projects-scroll"} gap={10} itemHeight={200} itemAspectRatio={16/9}>
                 {projectFiles.map((project, index) => (
                     <Link to={`/projects/${project.slug}`} key={index} className="card-link">
@@ -47,7 +47,7 @@ const ProjectsSection: React.FC = () => {
                 ))}
             </SlideShow>
 
-            <Title level={3}>Some other projects</Title>
+            <Title className={'ubuntu'} level={3}>Some other projects</Title>
             <SlideShow className={"projects-scroll"} gap={10} itemHeight={200} itemAspectRatio={16/9}>
                 {projectFiles.map((project, index) => (
                     <Link to={`/projects/${project.slug}`} key={index} className="card-link">

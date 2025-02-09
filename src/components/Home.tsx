@@ -1,28 +1,20 @@
-import React, {useState, useEffect, ReactNode} from "react";
+import React, {useState, useEffect} from "react";
 import WelcomeSection from "./WelcomeSection.tsx";
 import AboutSection from "./AboutSection.tsx";
 import ProjectsSection from "./ProjectsSection.tsx";
 import FullPage from "./FullPage.tsx";
+import cube1 from "../assets/cube1.png";
+import cube2 from "../assets/cube2.png";
+import cube3 from "../assets/cube3.png";
+import cube4 from "../assets/cube4.png";
+import logo from "../assets/logo.svg";
+import Navigation from "./Navigation.tsx";
 import "./Home.css";
-import {Steps} from "antd";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronDown, faChevronUp} from "@fortawesome/free-solid-svg-icons";
-
-const items = [
-    {
-        title: 'Welcome'
-    },
-    {
-        title: 'About me'
-    },
-    {
-        title: 'My Projects'
-    },
-];
+import ParallaxLayer from "./ParallaxLayer.tsx";
 
 const Home: React.FC = () => {
     const [activeSection, setActiveSection] = useState<number>(0);
-
+    const [scrollPosition, setScrollPosition] = useState<number>(0);
     const sectionList: string[] = ["welcome", "about", "projects"];
 
     // Initialize activeSection based on the current URL hash
@@ -59,79 +51,95 @@ const Home: React.FC = () => {
         window.location.hash = `#${sectionList[newSection]}`;
     };
 
-    const renderNavigation = (): JSX.Element => {
-        const handleStepChange = (current: number) => {
-            setActiveSection(current);
-        };
-
-        const handleArrowNavigation = (direction: 'up' | 'down') => {
-            if (direction === 'up' && activeSection > 0) {
-                setActiveSection(activeSection - 1);
-            }
-            if (direction === 'down' && activeSection < sectionList.length - 1) {
-                setActiveSection(activeSection + 1);
-            }
-        };
-
-        return (
-            <div className="navigation-wrapper">
-                {/* Up Arrow */}
-                <div
-                    className="arrow arrow-up"
-                    style={{
-                        opacity: activeSection > 0 ? 1 : 0,
-                        pointerEvents: activeSection > 0 ? "auto" : "none"
-                    }}
-                    onClick={() => handleArrowNavigation('up')}
-                >
-                    <FontAwesomeIcon icon={faChevronUp} />
-                </div>
-
-                <div className="navigation-container" style={{
-                    opacity: activeSection > 0 ? "1" : "0",
-                    pointerEvents: activeSection > 0 ? "auto" : "none"
-                }}>
-                    <Steps
-                        className={'navigation'}
-                        current={activeSection}
-                        direction={'vertical'}
-                        items={items}
-                        onChange={handleStepChange}
-                    />
-                </div>
-
-                {/* Down Arrow */}
-                <div
-                    className="arrow arrow-down"
-                    style={{
-                        opacity: activeSection < sectionList.length - 1 ? 1 : 0,
-                        pointerEvents: activeSection < sectionList.length - 1 ? "auto" : "none"
-                    }}
-                    onClick={() => handleArrowNavigation('down')}
-                >
-                    <FontAwesomeIcon icon={faChevronDown} />
-                </div>
-            </div>
-        )
-    }
-
+    // Scroll handler for parallax effect
+    const handleScroll = (y: number) => {
+        setScrollPosition(y); // Update scroll position
+    };
 
     return (
-        <FullPage
-            activeSection={activeSection}
-            onSectionChange={handleSectionChange}
-            renderNavigation={renderNavigation}
-        >
-            <div className={"section home"}>
-                <WelcomeSection />
+        <div>
+            <div className="overlay">
+                <div className="background-container">
+                    <img alt={'logo'} src={logo} className={'background-logo'}/>
+                </div>
+                {/* Apply parallax effect based on scroll position */}
+                <ParallaxLayer zDepth={1} scrollPosition={scrollPosition}>
+                    <img className={'cube'} src={cube1} alt="cube"
+                         style={{
+                             height: '5.21vw',
+                             left: '5.73vw',
+                             bottom: `8.21vw`,
+                         }}/>
+                    <img className={'cube'} src={cube2} alt="cube"
+                         style={{
+                             height: '5.21vw',
+                             right: '20.83vw',
+                             bottom: `-65.21vw`,
+                         }}/>
+                </ParallaxLayer>
+
+                <ParallaxLayer zDepth={2} scrollPosition={scrollPosition}>
+                    <img className={'cube'} src={cube3} alt="cube"
+                         style={{
+                             height: '5.21vw',
+                             right: '15.63vw',
+                             top: `16.52vw`,
+                         }}/>
+                    <img className={'cube'} src={cube3} alt="cube"
+                         style={{
+                             height: '5.21vw',
+                             left: '13.02vw',
+                             top: `55.04vw`,
+                         }}/>
+                </ParallaxLayer>
+
+                <ParallaxLayer zDepth={3} scrollPosition={scrollPosition}>
+                    <img className={'cube'} src={cube4} alt="cube"
+                         style={{
+                             height: '5.21vw',
+                             left: '39.58vw',
+                             top: `27.48vw`,
+                         }}/>
+                </ParallaxLayer>
+
+                <ParallaxLayer zDepth={4} scrollPosition={scrollPosition}>
+                    <img className={'cube'} src={cube2} alt="cube"
+                         style={{
+                             height: '5.21vw',
+                             left: '23.65vw',
+                             top: `-3.30vw`,
+                         }}/>
+                    <img className={'cube'} src={cube4} alt="cube"
+                         style={{
+                             height: '5.21vw',
+                             right: '10.42vw',
+                             top: `40.46vw`,
+                         }}/>
+                </ParallaxLayer>
             </div>
-            <div className={"section about"}>
-                <AboutSection />
-            </div>
-            <div className={"section projects"}>
-                <ProjectsSection />
-            </div>
-        </FullPage>
+            <FullPage
+                onScrollPositionChange={handleScroll}
+                activeSection={activeSection}
+                onSectionChange={handleSectionChange}
+                renderNavigation={() =>
+                    <Navigation
+                        activeSection={activeSection}
+                        setActiveSection={handleSectionChange}
+                        items={["Welcome", "About me", "My Projects"]}
+                        handleStepChange={handleSectionChange}
+                    />
+                }>
+                <div className={"section home"}>
+                    <WelcomeSection/>
+                </div>
+                <div className={"section about"}>
+                    <AboutSection/>
+                </div>
+                <div className={"section projects"}>
+                    <ProjectsSection/>
+                </div>
+            </FullPage>
+        </div>
     );
 };
 

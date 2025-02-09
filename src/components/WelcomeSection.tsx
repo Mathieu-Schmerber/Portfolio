@@ -5,7 +5,8 @@ import "./WelcomeSection.css"
 const WelcomeSection: React.FC = () => {
     return (
         <div>
-            <Title className={"header-title"}>Welcome to my Portfolio</Title>
+            <Title className={'header-title'}>Welcome to my Portfolio</Title>
+            <Title className={'header-subtitle'}>Mathieu Schmerber</Title>
         </div>
     );
 }
