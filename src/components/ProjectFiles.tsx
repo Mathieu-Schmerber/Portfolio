@@ -23,7 +23,7 @@ export const projectFiles: Project[] = [
             "https://img.itch.zone/aW1hZ2UvMTkzMjczMC8xMTM2ODIzMi5wbmc=/original/8%2F01pn.png",
             "https://img.itch.zone/aW1hZ2UvMTkzMjczMC8xMTM2ODIzMy5wbmc=/original/w2jeE7.png"
         ],
-        buildFile: "https://html-classic.itch.zone/html/7379054/index.html"
+        buildFile: "https://html-classic.itch.zone/html/12768724/ForTheChurch_Build/index.html"
     },
     {title: "Dawns Gate", description: "A stylized dark-fantasy roguelite", slug: "dawns-gate",
         cover: "cover.png",
