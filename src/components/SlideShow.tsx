@@ -6,7 +6,7 @@ import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons
 interface SlideShowProps {
     children: React.ReactNode[];
     itemHeight: number;
-    itemAspectRatio: number;
+    itemWidth: number;
     gap: number;
     className?: string; // Optional className prop
     selectedIndex?: number; // External selected index
@@ -18,7 +18,7 @@ const SlideShow = ({
                        children,
                        gap,
                        itemHeight,
-                       itemAspectRatio,
+                       itemWidth,
                        className = "", // Default to an empty string if className is not provided
                        selectedIndex: externalSelectedIndex = 0,
                        onSelected,
@@ -29,7 +29,7 @@ const SlideShow = ({
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const elementCount = children.length;
-    const width = itemHeight * itemAspectRatio + gap;
+    const width = itemWidth + gap;
 
     const centerAsset = (index: number, isSmooth: boolean) => {
         const container = scrollContainerRef.current;
@@ -164,7 +164,7 @@ const SlideShow = ({
                     {[...children, ...children, ...children].map((child, index) => (
                         <div
                             className="item"
-                            style={{ height: `${itemHeight}px`, aspectRatio: `${itemAspectRatio}` }}
+                            style={{ height: `${itemHeight}px`, width: `${itemWidth}px` }}
                             key={index}
                             onClick={() => selectAsset(index)}>
                             {child}

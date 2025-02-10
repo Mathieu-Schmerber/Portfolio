@@ -1,0 +1,63 @@
+:root {
+    --card-width: 250px;
+    --card-content-height: 50px;
+    --card-image-height: 142px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: var(--card-width);
+    height: calc(var(--card-image-height) + var(--card-content-height));
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.card-cover {
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+}
+
+.card-cover img {
+    width: auto; /* Image fully fills the width */
+    height: 100%; /* Maintain aspect ratio based on width */
+    object-fit: cover; /* Maintain aspect ratio while covering */
+    object-position: center; /* Center the image */
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: white;
+    box-sizing: border-box;
+    min-height: var(--card-content-height);
+    flex-grow: 0;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-description {
+    margin: 0;
+    font-size: 12px;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

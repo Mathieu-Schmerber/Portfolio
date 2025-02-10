@@ -11,11 +11,12 @@ import logo from "../assets/logo.svg";
 import Navigation from "./Navigation.tsx";
 import "./Home.css";
 import ParallaxLayer from "./ParallaxLayer.tsx";
+import OtherSection from "./OtherSection.tsx";
 
 const Home: React.FC = () => {
     const [activeSection, setActiveSection] = useState<number>(0);
     const [scrollPosition, setScrollPosition] = useState<number>(0);
-    const sectionList: string[] = ["welcome", "about", "projects"];
+    const sectionList: string[] = ["welcome", "about", "projects", "other"];
 
     // Initialize activeSection based on the current URL hash
     const getInitialSection = () => {
@@ -125,7 +126,7 @@ const Home: React.FC = () => {
                     <Navigation
                         activeSection={activeSection}
                         setActiveSection={handleSectionChange}
-                        items={["Welcome", "About me", "My Projects"]}
+                        items={["Welcome", "About me", "My Projects", "All projects"]}
                         handleStepChange={handleSectionChange}
                     />
                 }>
@@ -137,6 +138,9 @@ const Home: React.FC = () => {
                 </div>
                 <div className={"section projects"}>
                     <ProjectsSection/>
+                </div>
+                <div className={"section other"}>
+                    <OtherSection/>
                 </div>
             </FullPage>
         </div>

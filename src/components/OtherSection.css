@@ -1,0 +1,16 @@
+.projects-container {
+    padding: 10%;
+}
+
+.projects-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Apply gap for both horizontal and vertical spacing */
+    justify-content: center; /* Center the content */
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
